@@ -8,12 +8,15 @@ var title = document.createElement('h1');
 var questionContainer = document.createElement('div');
 var timerContainer = document.createElement('div');
 var timer = document.createElement('h2');
-//var firstSet = "Which of the following is not a Javascript data type?";
+var savedInfo = document.createElement('p');
+
 var score = 100;
 
 
 
 
+savedInfo.textContent = "Jump to top scores";
+savedInfo.setAttribute('style', 'margin auto; width 25%; text-align: left;');
 startButton.textContent = 'Start Quiz';
 startButton.id = 'startButtonId';
 startButton.className = 'starButtonClass';
@@ -30,6 +33,7 @@ timer.setAttribute('style', 'margin: auto; width: 50%; text-align: center; ');
 
 
 //Appending things to the body of the html DOM.
+body.appendChild(savedInfo);
 body.appendChild(questionContainer);
 questionContainer.appendChild(timer);
 body.appendChild(titleContainer);
@@ -39,13 +43,12 @@ body.appendChild(buttonContainer);
 buttonContainer.appendChild(startButton);
 
 function timeUp() {
-    window.alert("Time is up!");
+    window.alert("Game Over");
 }
 
-
-
+var timeLeft = 60;
 function begintimer() {
-    var timeLeft = 60;
+
 
     var timeInterval = setInterval(function () {
         if (timeLeft > 1) {
@@ -62,65 +65,62 @@ function begintimer() {
             timeUp();
         }
 
-
-
-
     }, 1000);
 }
 
 function firstSetOfQuestionsFunction() {
-    document.getElementById("buttonId").innerHTML = "which of the following is not a Javascript data type? <button class='aButtons' id='firstTrue'>Boolean</button> <button class='aButtons' id='firstFalse'>Word</button> <button class='aButtons' id='firstTrue'>Numbers</button>";
+    document.getElementById("buttonId").innerHTML = "which of the following is not a Javascript data type? <button class='aButtons' id='firstIncorrect'>Boolean</button> <button class='aButtons' id='firstCorrect'>Word</button> <button class='aButtons' id='firstIncorrect'>Numbers</button>";
 };
 
 function secondSetOfQuestionsFunction() {
     document.getElementById("buttonId").innerHTML = "Which of the following is not a coding language? <button class='bButtons' id='secondTrue'>JavaScript</button> <button class='bButtons' id='secondFalse'>HTML</button> <button class='bButtons' id='secondTrue'>Python</button>";
-}
+};
 
 function thirdSetOfQuestionsFunction() {
     document.getElementById("buttonId").innerHTML = "Which of the following is the correct way to declare a variable? <button class='cButtons' id='thirdFalse'>var = number 3 </button> <button class='cButtons' id='thirdFalse'> number = var 3</button> <button class='cButtons' id='thirdTrue'> var number = 3</button>";
-}
-// var taskButtonHandler = function(event) {
-//     // get target element from event
-//     var targetEl = event.target;
+};
 
-//     // edit button was clicked
-//     if (targetEl.matches(".edit-btn")) {
-//       var taskId = targetEl.getAttribute("data-task-id");
-//       editTask(taskId);
-//     } 
-//     // delete button was clicked
-//     else if (targetEl.matches(".delete-btn")) {
-//       var taskId = targetEl.getAttribute("data-task-id");
-//       deleteTask(taskId);
-//     }
-//   };
+function theQuizIsOverFunction() {
+    document.getElementById("buttonId").innerHTML = "You have completed the quiz with a score of " + score;
+    timeLeft = 0;
+};
+
 var delegate = function (event) {
     var grabThis = event.target;
     var grabThisId = grabThis.id;
     if (grabThis.matches(".aButtons")) {
+        if (grabThisId === 'firstIncorrect') {
+            score = score - 33;
+            timeLeft = timeLeft - 10;
+        }
+        secondSetOfQuestionsFunction();
+    } else if (grabThis.matches(".bButtons")) {
+        if (grabThisId === 'secondTrue') {
+            score = score - 33;
+            timeLeft = timeLeft - 10;
+        }
+        thirdSetOfQuestionsFunction();
+    } else if (grabThis.matches(".cButtons")) {
+        if (grabThisId === 'thirdFalse') {
+            score = score - 33;
+            timeLeft = timeLeft - 10;
+        }
+        localStorage.setItem("score", score);
+        console.log(localStorage.score);
+        theQuizIsOverFunction();
 
-        console.log("Delegating is working");
-        console.log("Your grabThis id is " + grabThisId);
     }
+
 
 
 };
 
 
-
-
-
-
-
 function beginQuiz() {
     firstSetOfQuestionsFunction();
-
-
-
-
-
-
 }
+
+
 
 
 startButton.addEventListener("click", beginQuiz);
