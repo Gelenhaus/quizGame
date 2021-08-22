@@ -9,19 +9,27 @@ var questionContainer = document.createElement('div');
 var timerContainer = document.createElement('div');
 var timer = document.createElement('h2');
 var savedInfo = document.createElement('p');
+var savedInfoContainer = document.createElement('div');
+var usersInitials = [];
 
 var score = 100;
 
 
 
-
-savedInfo.textContent = "Jump to top scores";
+savedInfoContainer.className = "savedInfoContainerClassName";
+savedInfoContainer.id = "savedInfoContainerId";
+savedInfo.innerHTML = "<button>Jump to top scores</button>";
+savedInfo.id = "savedInfoId";
 savedInfo.setAttribute('style', 'margin auto; width 25%; text-align: left;');
+savedInfo.className = "savedInfoClassName";
+
+
 startButton.textContent = 'Start Quiz';
 startButton.id = 'startButtonId';
 startButton.className = 'starButtonClass';
 buttonContainer.setAttribute('style', 'margin: auto; width: 25%; text-align: center;');
 buttonContainer.id = "buttonId";
+
 
 title.textContent = 'Welcome to the coding quiz!';
 title.setAttribute('style', 'margin: auto; width: 50%; text-align: center; ');
@@ -33,7 +41,8 @@ timer.setAttribute('style', 'margin: auto; width: 50%; text-align: center; ');
 
 
 //Appending things to the body of the html DOM.
-body.appendChild(savedInfo);
+body.appendChild(savedInfoContainer);
+savedInfoContainer.appendChild(savedInfo);
 body.appendChild(questionContainer);
 questionContainer.appendChild(timer);
 body.appendChild(titleContainer);
@@ -85,6 +94,15 @@ function theQuizIsOverFunction() {
     timeLeft = 0;
 };
 
+
+var savedButton = function (event) {
+    var clickedThis = event.target;
+    var storedNames = JSON.parse(localStorage.getItem("usersInitials"));
+    console.log(storedNames);
+
+    document.getElementById("savedInfoContainerId").innerHTML = storedNames;
+
+};
 var delegate = function (event) {
     var grabThis = event.target;
     var grabThisId = grabThis.id;
@@ -105,20 +123,33 @@ var delegate = function (event) {
             score = score - 33;
             timeLeft = timeLeft - 10;
         }
-        localStorage.setItem("score", score);
-        console.log(localStorage.score);
-        theQuizIsOverFunction();
 
+
+        usersInitials.push(window.prompt("Enter your initals"));
+        usersInitials.push(score);
+        localStorage.setItem("usersInitials", JSON.stringify(usersInitials));
+        console.log(localStorage);
+        var storedNames = JSON.parse(localStorage.getItem("usersInitials"));
+        console.log(storedNames);
+
+
+
+        theQuizIsOverFunction();
     }
 
 
 
 };
 
+//We need to create an array for saving the initials and the scores then
+// change them into a string and store them in local storage and then
+// when we take them out - turn them back into an array and display them.
+
+
 
 function beginQuiz() {
     firstSetOfQuestionsFunction();
-}
+};
 
 
 
@@ -126,3 +157,4 @@ function beginQuiz() {
 startButton.addEventListener("click", beginQuiz);
 startButton.addEventListener("click", begintimer);
 body.addEventListener("click", delegate);
+savedInfoContainer.addEventListener("click", savedButton);
