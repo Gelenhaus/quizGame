@@ -1,3 +1,11 @@
 body {
-    background-color: rgb(110, 194, 110);
-}
+    background: #55cd75;
+    color: var(--grey);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+ 

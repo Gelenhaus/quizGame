@@ -18,6 +18,7 @@ var score = 100;
 
 savedInfoContainer.className = "savedInfoContainerClassName";
 savedInfoContainer.id = "savedInfoContainerId";
+
 savedInfo.innerHTML = "<button>Jump to top scores</button>";
 savedInfo.id = "savedInfoId";
 savedInfo.setAttribute('style', 'margin auto; width 25%; text-align: left;');
@@ -27,6 +28,8 @@ savedInfo.className = "savedInfoClassName";
 startButton.textContent = 'Start Quiz';
 startButton.id = 'startButtonId';
 startButton.className = 'starButtonClass';
+startButton.setAttribute('style', 'color: white; font-size: 16px; background-color:#4CAF50;');
+
 buttonContainer.setAttribute('style', 'margin: auto; width: 25%; text-align: center;');
 buttonContainer.id = "buttonId";
 
@@ -100,7 +103,7 @@ var savedButton = function (event) {
     var storedNames = JSON.parse(localStorage.getItem("usersInitials"));
     console.log(storedNames);
 
-    document.getElementById("savedInfoContainerId").innerHTML = storedNames;
+    document.getElementById("savedInfoContainerId").innerHTML = "Previous attempt " + storedNames;
 
 };
 var delegate = function (event) {
